@@ -7,5 +7,4 @@ properties:
   page:
     title: Page number to splt on. 
     type: integer
-required:
-  - page
+required: page
