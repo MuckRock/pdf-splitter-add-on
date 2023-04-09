@@ -19,7 +19,7 @@ class Split(AddOn):
             with open(f'{title}.pdf', 'wb') as f:
                 f.write(document.pdf)
             cmd1 = f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1_{page}.pdf"'
-            cmd2 = f'pdftk "{title}.pdf" cat {page2}-end output "./out/{title}_{page}-end.pdf"'
+            cmd2 = f'pdftk "{title}.pdf" cat {page2}-end output "./out/{title}_{page2}-end.pdf"'
             subprocess.call(cmd1, shell=True)
             subprocess.call(cmd2, shell=True)
         self.client.documents.upload_directory("./out/")
