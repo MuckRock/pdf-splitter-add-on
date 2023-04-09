@@ -1,38 +1,28 @@
 """
-This is a hello world add-on for DocumentCloud.
-
-It demonstrates how to write a add-on which can be activated from the
-DocumentCloud add-on system and run using Github Actions.  It receives data
-from DocumentCloud via the request dispatch and writes data back to
-DocumentCloud using the standard API
+This Add-On uses pdftk: https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/ to 
+split a DocumentCloud document into two documents and uploads the two resulting documents. 
 """
 
 from documentcloud.addon import AddOn
+import os
+import subprocess
 
-
-class HelloWorld(AddOn):
-    """An example Add-On for DocumentCloud."""
+class Split(AddOn):
+    """Creates a temp directory, downloads doc, splits along page, uploads split documents"""
 
     def main(self):
-        """The main add-on functionality goes here."""
-        # fetch your add-on specific data
-        name = self.data.get("name", "world")
-
-        self.set_message("Hello World start!")
-
-        # add a hello note to the first page of each selected document
+        page = self.data.get("page")
+        os.makedirs(os.path.dirname("./out/"), exist_ok=True)
         for document in self.get_documents():
-            # get_documents will iterate through all documents efficiently,
-            # either selected or by query, dependeing on which is passed in
-            document.annotations.create(f"Hello {name}!", 0)
-
-        with open("hello.txt", "w+") as file_:
-            file_.write("Hello world!")
-            self.upload_file(file_)
-
-        self.set_message("Hello World end!")
-        self.send_mail("Hello World!", "We finished!")
-
+            title = document.title
+            with open(f'{title}.pdf', 'wb') as f:
+                f.write(document.pdf)
+            cmd1 = f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1_{page}.pdf"'
+            cmd2 = f'pdftk "{title}.pdf" cat {page}-end output "./out/{title}_{page}-end.pdf"'
+            subprocess.call(cmd1, shell=True)
+            subprocess.call(cmd2, shell=True)
+        self.client.documents.upload_directory("./out/")
+            
 
 if __name__ == "__main__":
-    HelloWorld().main()
+    Split().main()
