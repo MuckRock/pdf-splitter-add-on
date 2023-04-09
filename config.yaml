@@ -1,5 +1,5 @@
 title: Document Splitter
-description: This Add-On splits a document along a designated page.
+description: This Add-On splits a document along a designated page into two documents. If your document is 5 pages and you split on page 3 the resulting documents will be page 1 to 3 and 4 to 5. 
 type: object
 documents:
   - selected
