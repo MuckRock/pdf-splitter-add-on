@@ -1,9 +1,9 @@
 title: Document Splitter
-description: This Add-On splits a document along a designated page. Example: If you select 13, it will split the document from pages 1-13 and 14-end. 
+description: This Add-On splits a document along a designated page.
 type: object
 documents:
   - selected
 properties:
   page:
-    title: Page number to splt on. 
+    title: Page number to split on. 
     type: integer
