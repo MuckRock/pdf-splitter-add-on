@@ -12,13 +12,14 @@ class Split(AddOn):
 
     def main(self):
         page = self.data.get("page")
+        page2 = page + 1
         os.makedirs(os.path.dirname("./out/"), exist_ok=True)
         for document in self.get_documents():
             title = document.title
             with open(f'{title}.pdf', 'wb') as f:
                 f.write(document.pdf)
             cmd1 = f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1_{page}.pdf"'
-            cmd2 = f'pdftk "{title}.pdf" cat {page}-end output "./out/{title}_{page}-end.pdf"'
+            cmd2 = f'pdftk "{title}.pdf" cat {page2}-end output "./out/{title}_{page}-end.pdf"'
             subprocess.call(cmd1, shell=True)
             subprocess.call(cmd2, shell=True)
         self.client.documents.upload_directory("./out/")
