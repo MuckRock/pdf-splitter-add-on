@@ -5,4 +5,4 @@
 
 # Document Splitter Add-On
 
-TDocumentCloud Add-On that splits a DocumentCloud document on a designated page and creates two new documents. 
+DocumentCloud Add-On that splits a DocumentCloud document on a designated page and creates two new documents. 
