@@ -11,14 +11,14 @@ class Split(AddOn):
     """Creates a temp directory, downloads doc, splits along page, uploads split documents"""
 
     def main(self):
-        page = self.data.get("page")
+        page = self.data["page"]
         page2 = page + 1
         os.makedirs(os.path.dirname("./out/"), exist_ok=True)
         for document in self.get_documents():
             title = document.title
             with open(f'{title}.pdf', 'wb') as f:
                 f.write(document.pdf)
-            cmd1 = f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1_{page}.pdf"'
+            cmd1 = f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1-{page}.pdf"'
             cmd2 = f'pdftk "{title}.pdf" cat {page2}-end output "./out/{title}_{page2}-end.pdf"'
             subprocess.call(cmd1, shell=True)
             subprocess.call(cmd2, shell=True)
