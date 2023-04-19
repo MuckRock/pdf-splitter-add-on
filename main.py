@@ -13,19 +13,23 @@ class Split(AddOn):
     def main(self):
         """Runs the document through pdfkit and splits across that page,
         then uploads two output documents"""
+        # Pulls the page to split on from front end
         page = self.data["page"]
         page2 = page + 1
+        # Creates temporary directory where the split documents will live
         os.makedirs(os.path.dirname("./out/"), exist_ok=True)
         for document in self.get_documents():
             title = document.title
             with open(f"{title}.pdf", "wb") as file:
                 file.write(document.pdf)
+            # Split the document into two documents along the designated page using pdftk
             cmd1 = (
                 f'pdftk "{title}.pdf" cat 1-{page} output "./out/{title}_1-{page}.pdf"'
             )
             cmd2 = f'pdftk "{title}.pdf" cat {page2}-end output "./out/{title}_{page2}-end.pdf"'
             subprocess.call(cmd1, shell=True)
             subprocess.call(cmd2, shell=True)
+        # Uploads the split documents to DocumentCloud
         self.client.documents.upload_directory("./out/")
 
 
