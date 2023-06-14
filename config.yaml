@@ -9,3 +9,5 @@ properties:
     type: integer
 required: 
   - page
+categories:
+  - file
