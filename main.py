@@ -18,9 +18,6 @@ class Split(AddOn):
         page2 = page + 1
         # Creates temporary directory where the split documents will live
         os.makedirs(os.path.dirname("./out/"), exist_ok=True)
-        if not self.documents:
-            self.set_message("Please select at least one document.")
-            return
         for document in self.get_documents():
             title = document.title
             with open(f"{title}.pdf", "wb") as file:
