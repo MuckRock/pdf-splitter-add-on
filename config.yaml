@@ -8,6 +8,18 @@ properties:
   page:
     title: Page number to split on. 
     type: integer
+  project_id:
+    title: Project ID
+    type: integer
+    description: Project ID of the project you would like to upload the documents to. 
+  access_level:
+    title: Access level for uploaded documents
+    type: string
+    default: private
+    enum:
+      - private
+      - organization
+      - public
 required: 
   - page
 categories:

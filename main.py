@@ -15,6 +15,12 @@ class Split(AddOn):
         then uploads two output documents"""
         # Pulls the page to split on from front end
         page = self.data["page"]
+        access_level = self.data["access_level"]
+        project_id = self.data.get("project_id")
+        if project_id is not None:
+            kwargs = {"project": project_id}
+        else:
+            kwargs = {}
         page2 = page + 1
         # Creates temporary directory where the split documents will live
         os.makedirs(os.path.dirname("./out/"), exist_ok=True)
@@ -30,7 +36,7 @@ class Split(AddOn):
             subprocess.call(cmd1, shell=True)
             subprocess.call(cmd2, shell=True)
         # Uploads the split documents to DocumentCloud
-        self.client.documents.upload_directory("./out/")
+        self.client.documents.upload_directory("./out/", access=access_level, **kwargs)
 
 
 if __name__ == "__main__":
