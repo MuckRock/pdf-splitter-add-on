@@ -14,6 +14,7 @@ class Split(AddOn):
         """Runs the document through pdfkit and splits across that page,
         then uploads two output documents"""
         # Pulls the page to split on from front end
+        self.client.session.headers.update({'User-Agent': 'Document Splitter Add-On'})
         page = self.data["page"]
         access_level = self.data["access_level"]
         project_id = self.data.get("project_id")
